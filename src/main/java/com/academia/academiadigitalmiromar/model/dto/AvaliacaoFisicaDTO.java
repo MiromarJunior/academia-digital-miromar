@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AvaliacaoFisicaDTO {
 
-    private Aluno aluno;
+    private Long alunoId;
 
     private double peso;
 

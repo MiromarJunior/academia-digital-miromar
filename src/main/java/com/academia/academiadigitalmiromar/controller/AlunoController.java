@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.academia.academiadigitalmiromar.model.Aluno;
+import com.academia.academiadigitalmiromar.model.AvaliacaoFisica;
 import com.academia.academiadigitalmiromar.model.dto.AlunoDTO;
 import com.academia.academiadigitalmiromar.service.impl.AlunoServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,12 @@ public class AlunoController {
       return new ResponseEntity<>(aluno,HttpStatus.CREATED);
       
 
+    }
+
+    @GetMapping("/avaliacoes/{id}")
+    public ResponseEntity<List<AvaliacaoFisica>> getAllAvalicaoFisicaId(@PathVariable Long id) {
+        List<AvaliacaoFisica> avaliacao = alService.getAllAvaliacaoFisicaId(id);
+        return new ResponseEntity<>(avaliacao,HttpStatus.OK);
     }
 
 }
