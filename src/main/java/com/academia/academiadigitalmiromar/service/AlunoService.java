@@ -13,12 +13,14 @@ public interface AlunoService {
 
     Aluno getAluno(Long id);
 
-    List<Aluno> getAllAluno();
+    List<Aluno> getAllAluno(String dataDeNascimento);
 
     Aluno updateAluno(Long id,AlunoUpdateDTO dto);
 
     void deleteAluno(Long id);
 
     List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id);
+
+    
     
 }

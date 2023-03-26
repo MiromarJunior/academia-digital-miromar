@@ -9,9 +9,9 @@ public interface MatriculaService {
 
     Matricula createMatricula(MatriculaDTO dto);
 
-    Matricula geMatricula(Long id);
+    Matricula getMatricula(Long id);
 
-    List<Matricula> getAllMatricula();
+    List<Matricula> getAllMatricula(String bairro);
 
     void deleteMatricula(Long id);
     

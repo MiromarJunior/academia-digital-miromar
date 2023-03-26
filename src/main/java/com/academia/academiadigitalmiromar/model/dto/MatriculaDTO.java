@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import com.academia.academiadigitalmiromar.model.Aluno;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MatriculaDTO {
 
-    private Aluno aluno;
+    @NotNull(message ="Preencha o campo corretamente")
+    @Positive(message = "O ID precisa ser positivo")
+    private Long alunoId;
 
     
 }

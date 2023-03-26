@@ -1,5 +1,7 @@
 package com.academia.academiadigitalmiromar.service.impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import com.academia.academiadigitalmiromar.repository.AlunoRepository;
 import com.academia.academiadigitalmiromar.service.AlunoService;
 
 @Service
-public class AlunoServiceImpl implements AlunoService{
+public class AlunoServiceImpl implements AlunoService {
 
     @Autowired
     private AlunoRepository alRepository;
@@ -28,25 +30,42 @@ public class AlunoServiceImpl implements AlunoService{
         aluno.setBairro(dto.getBairro());
         aluno.setDataDeNascimento(dto.getDataDeNascimento());
 
-     return  alRepository.save(aluno);
+        return alRepository.save(aluno);
 
     }
 
     @Override
     public Aluno getAluno(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAluno'");
+        return alRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Aluno não encontrado com o ID: " + id));
+
     }
 
     @Override
-    public List<Aluno> getAllAluno() {
-      return  alRepository.findAll();
+    public List<Aluno> getAllAluno(String dataDeNascimento) {
+        if (dataDeNascimento == null) {
+            return alRepository.findAll();
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate localDate = LocalDate.parse(dataDeNascimento, formatter);
+            return alRepository.findByDataDeNascimento(localDate);
+        }
+
     }
 
     @Override
     public Aluno updateAluno(Long id, AlunoUpdateDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateAluno'");
+        if (alRepository.findById(id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado com o ID: " + id);
+        }
+        Aluno aluno = new Aluno();
+        aluno.setId(id);
+        aluno.setBairro(dto.getBairro());
+        aluno.setDataDeNascimento(dto.getDataDeNascimento());
+        aluno.setNome(dto.getNome());
+        return alRepository.save(aluno);
+
     }
 
     @Override
@@ -56,17 +75,13 @@ public class AlunoServiceImpl implements AlunoService{
     }
 
     @Override
-    
+
     public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id) {
         Aluno aluno = alRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado com o ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Aluno não encontrado com o ID: " + id));
 
-
-    return aluno.getAvaliacoes();
+        return aluno.getAvaliacoes();
     }
 
-   
-
-  
-    
 }
