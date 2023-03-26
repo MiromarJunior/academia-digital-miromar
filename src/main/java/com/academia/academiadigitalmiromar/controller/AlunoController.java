@@ -18,6 +18,7 @@ import com.academia.academiadigitalmiromar.service.impl.AlunoServiceImpl;
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,6 +78,18 @@ public class AlunoController {
     public ResponseEntity<List<AvaliacaoFisica>> getAllAvalicaoFisicaId(@PathVariable Long id) {
         List<AvaliacaoFisica> avaliacao = alService.getAllAvaliacaoFisicaId(id);
         return new ResponseEntity<>(avaliacao,HttpStatus.OK);
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<Aluno> getAlunoCpf(@PathVariable String cpf) {
+        Aluno aluno = alService.getAlunoCpf(cpf);
+        return  ResponseEntity.ok().body(aluno);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAluno(@PathVariable Long id){
+         alService.deleteAluno(id);
+        return ResponseEntity.ok(null);
     }
 
 }

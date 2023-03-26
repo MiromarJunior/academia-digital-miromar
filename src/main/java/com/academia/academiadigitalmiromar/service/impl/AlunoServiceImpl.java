@@ -24,9 +24,15 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno createAluno(AlunoDTO dto) {
+
+        if(alRepository.findByCpf(dto.getCpf()).isPresent()){
+        throw  new ResponseStatusException(HttpStatus.CONFLICT,
+        "Erro Duplicidade\n CPF já cadastrado: " + dto.getCpf());
+        }
+
         Aluno aluno = new Aluno();
         aluno.setNome(dto.getNome());
-        aluno.setCpf(dto.getCpf());
+        aluno.setCpf(dto.getCpf().replaceAll("\\D", ""));
         aluno.setBairro(dto.getBairro());
         aluno.setDataDeNascimento(dto.getDataDeNascimento());
 
@@ -56,11 +62,10 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno updateAluno(Long id, AlunoUpdateDTO dto) {
-        if (alRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado com o ID: " + id);
-        }
-        Aluno aluno = new Aluno();
-        aluno.setId(id);
+        Aluno aluno =  alRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado com o ID: " + id));       
+        
+       
         aluno.setBairro(dto.getBairro());
         aluno.setDataDeNascimento(dto.getDataDeNascimento());
         aluno.setNome(dto.getNome());
@@ -70,8 +75,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public void deleteAluno(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAluno'");
+         alRepository.deleteById(id);
     }
 
     @Override
@@ -82,6 +86,13 @@ public class AlunoServiceImpl implements AlunoService {
                         "Aluno não encontrado com o ID: " + id));
 
         return aluno.getAvaliacoes();
+    }
+
+    @Override
+    public Aluno getAlunoCpf(String cpf) {
+     return alRepository.findByCpf(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+      "Aluno não encontrado com o CPF: " + cpf));
+    
     }
 
 }

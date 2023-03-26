@@ -12,5 +12,7 @@ import com.academia.academiadigitalmiromar.model.Aluno;
 public interface AlunoRepository  extends JpaRepository<Aluno, Long>{
 
    List<Aluno> findByDataDeNascimento(LocalDate dataDeNascimento);
+   
+   Optional<Aluno> findByCpf(String cpf);
 
 }

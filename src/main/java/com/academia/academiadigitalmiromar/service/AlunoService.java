@@ -21,6 +21,8 @@ public interface AlunoService {
 
     List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id);
 
+    Aluno getAlunoCpf(String cpf);
+
     
     
 }
