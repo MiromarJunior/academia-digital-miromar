@@ -4,8 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +47,13 @@ public class MatriculaController {
     public ResponseEntity<List<Matricula>> getAllMatricula(@RequestParam(value = "bairro", required = false)String bairro){
         List<Matricula> matricula = service.getAllMatricula(bairro);
         return ResponseEntity.ok().body(matricula);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteMatricula(@PathVariable Long id){
+        service.deleteMatricula(id);
+        String msg = "Matricula e ALuno exluídos com sucesso";
+        return ResponseEntity.ok().body(msg);
     }
     
 }

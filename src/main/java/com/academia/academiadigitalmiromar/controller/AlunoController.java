@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping("/alunos")
@@ -87,9 +86,10 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAluno(@PathVariable Long id){
+    public ResponseEntity<String> deleteAluno(@PathVariable Long id){
          alService.deleteAluno(id);
-        return ResponseEntity.ok(null);
+         String msg = "Aluno Excluído com Sucesso!";
+        return ResponseEntity.ok().body(msg);
     }
 
 }

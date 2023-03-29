@@ -11,9 +11,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.academia.academiadigitalmiromar.model.Aluno;
 import com.academia.academiadigitalmiromar.model.AvaliacaoFisica;
+import com.academia.academiadigitalmiromar.model.Matricula;
 import com.academia.academiadigitalmiromar.model.dto.AlunoDTO;
 import com.academia.academiadigitalmiromar.model.dto.AlunoUpdateDTO;
 import com.academia.academiadigitalmiromar.repository.AlunoRepository;
+import com.academia.academiadigitalmiromar.repository.MatriculaRepository;
 import com.academia.academiadigitalmiromar.service.AlunoService;
 
 @Service
@@ -21,6 +23,9 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Autowired
     private AlunoRepository alRepository;
+
+    @Autowired
+    private MatriculaRepository matRepo;
 
     @Override
     public Aluno createAluno(AlunoDTO dto) {
@@ -36,7 +41,21 @@ public class AlunoServiceImpl implements AlunoService {
         aluno.setBairro(dto.getBairro());
         aluno.setDataDeNascimento(dto.getDataDeNascimento());
 
-        return alRepository.save(aluno);
+      
+
+        Aluno al2 = alRepository.save(aluno);
+        System.out.println(al2);
+        matriculaAluno(al2);
+         return al2;
+        
+
+    }
+
+    private Matricula matriculaAluno(Aluno al){
+        Matricula matricula  =  new  Matricula();
+        
+        matricula.setAluno(al);
+      return   matRepo.save(matricula);
 
     }
 
@@ -70,6 +89,7 @@ public class AlunoServiceImpl implements AlunoService {
         aluno.setDataDeNascimento(dto.getDataDeNascimento());
         aluno.setNome(dto.getNome());
         return alRepository.save(aluno);
+       
 
     }
 
